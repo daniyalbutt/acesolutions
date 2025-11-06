@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\User;
 use App\Notifications\ProjectCreatedNotification;
+use App\Notifications\ProjectStatusUpdatedNotification;
 use Illuminate\Support\Facades\Notification;
 use App\Models\ProjectFile;
 use Illuminate\Support\Facades\Mail;
@@ -227,6 +228,10 @@ class ProjectController extends Controller
     {
         $project->status = $request->status;
         $project->save();
+        $projectOwner = $project->user;
+        if ($projectOwner) {
+            $projectOwner->notify(new ProjectStatusUpdatedNotification($project));
+        }
         return redirect()->back()->with('success', 'Project status updated successfully!');
     }
 

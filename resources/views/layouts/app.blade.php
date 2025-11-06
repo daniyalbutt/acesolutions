@@ -123,7 +123,7 @@
                                                             </div>
                                                             <div class="flex-shrink-0"><span class="text-sm text-muted">{{ $notification->created_at->diffForHumans() }}</span></div>
                                                         </div>
-                                                        <p class="position-relative text-muted mt-1 mb-2"><br><span class="text-truncate">{{ $notification->data['message'] }}</span></p>
+                                                        <p class="position-relative text-muted mt-1 mb-2"><span class="">{{ $notification->data['message'] }}</span></p>
                                                     </div>
                                                 </div>
                                             </a>

@@ -14,9 +14,9 @@
                                     @method('PUT')
                                     <div class="input-group">
                                         <select name="status" id="status" class="form-control">
-                                            <option value="0" {{ $project->status == 0 ? 'selectes' : '' }}>Pending</option>
-                                            <option value="1" {{ $project->status == 1 ? 'selectes' : '' }}>In Progress</option>
-                                            <option value="2" {{ $project->status == 2 ? 'selectes' : '' }}>Approved</option>
+                                            <option value="0" {{ $project->status == 0 ? 'selected' : '' }}>Pending</option>
+                                            <option value="1" {{ $project->status == 1 ? 'selected' : '' }}>In Progress</option>
+                                            <option value="2" {{ $project->status == 2 ? 'selected' : '' }}>Approved</option>
                                         </select>
                                         <button class="btn btn-info" type="submit">Update</button>
                                     </div>
