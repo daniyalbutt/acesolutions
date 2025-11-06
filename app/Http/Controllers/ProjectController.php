@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\User;
+use App\Notifications\ProjectCreatedNotification;
+use Illuminate\Support\Facades\Notification;
 use App\Models\ProjectFile;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProjectCreatedMail;
@@ -81,6 +84,10 @@ class ProjectController extends Controller
         }
         $adminEmail = config('mail.admin_email');
         Mail::to($adminEmail)->send(new ProjectCreatedMail($project));
+
+        $admins = User::role('admin')->get();
+        Notification::send($admins, new ProjectCreatedNotification($project));
+
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
 
@@ -178,12 +185,20 @@ class ProjectController extends Controller
         return view('project.files-modal', compact('adminFiles', 'userFiles', 'project'));
     }
 
-    public function show($id)
+    public function show($id, Request $request)
     {
         $project = Project::findOrFail($id);
         $user = auth()->user();
         if (!$user->hasRole('admin') || !$user->can('edit project')) {
             abort(403, "Unauthorized access");
+        }
+
+        if ($request->has('notification_id')) {
+            $notification = auth()->user()->notifications()->find($request->notification_id);
+
+            if ($notification && $notification->unread()) {
+                $notification->markAsRead();
+            }
         }
         return view('project.show', compact('project'));
     }

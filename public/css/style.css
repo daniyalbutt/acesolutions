@@ -108,3 +108,7 @@ ul.role-wrapper > li {
 .admin-status .input-group button {
     padding: 5px 15px;
 }
+
+.pc-header ul {
+    width: 100%;
+}

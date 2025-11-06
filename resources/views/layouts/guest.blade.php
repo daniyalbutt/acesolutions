@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="{{ asset('css/feather.css') }}">
         <link rel="stylesheet" href="{{ asset('css/phosphor.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}" id="main-style-link">
+        <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
     </head>
     <body data-pc-header="header-1" data-pc-preset="preset-1" data-pc-sidebar-theme="light" data-pc-sidebar-caption="true" data-pc-direction="ltr" data-pc-theme="light">
         <div class="loader-bg">
