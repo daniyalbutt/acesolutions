@@ -19,8 +19,11 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
     Route::resource('projects', ProjectController::class);
-    Route::post('/projects/{id}/upload-file', [ProjectController::class, 'uploadFile'])->name('projects.uploadFile');
+    Route::post('/project/upload-file', [ProjectController::class, 'uploadFile'])->name('projects.uploadFile');
     Route::get('/projects/files/{id}', [ProjectController::class, 'projectFiles'])->name('projects.files');
+    Route::delete('/projects/files/{id}', [ProjectController::class, 'deleteFile'])->name('projects.files.delete');
+    Route::post('/project/{id}/admin-upload-file', [ProjectController::class, 'adminUploadFile'])->name('admin.project-files');
+    Route::put('/project/{project}/status', [ProjectController::class, 'updateStatus'])->name('projects.updateStatus');
 });
 
 require __DIR__.'/auth.php';

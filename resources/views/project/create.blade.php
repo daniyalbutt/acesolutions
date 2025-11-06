@@ -79,8 +79,12 @@
 
 							<div class="col-md-4 mb-3">
 								<label class="form-label">Company Phone *</label>
-								<input type="text" name="company_phone" class="form-control" value="{{ $company_phone }}" required>
+								<input type="text" name="company_phone" class="form-control"
+									value="{{ $company_phone }}" required
+									pattern="[0-9]+"
+									oninput="this.value = this.value.replace(/[^0-9]/g, '')">
 							</div>
+
 
 							<div class="col-md-4 mb-3">
 								<label class="form-label">Company Email *</label>
@@ -106,7 +110,7 @@
 
 						</div>
 
-						<button type="submit" class="btn btn-primary">
+						<button type="submit" class="btn btn-primary btn-submit">
 							{{ isset($project) ? 'Update' : 'Save' }}
 						</button>
 					</form>

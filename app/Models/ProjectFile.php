@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProjectFile extends Model
 {
-    protected $fillable = ['project_id', 'uploaded_by', 'file'];
+    protected $fillable = ['project_id', 'uploaded_by', 'file', 'admin_file'];
 
     public function user()
     {

@@ -32,7 +32,7 @@
                                 <span class="toggle-password"
                                     onclick="togglePassword('password', this)" 
                                     style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
-                                    <i data-feather="eye"></i>
+                                    <i class="feather icon-eye"></i>
                                 </span>
                                 @error('password')
                                     <small class="text-danger">{{ $message }}</small>
@@ -44,7 +44,7 @@
                                 <span class="toggle-password"
                                     onclick="togglePassword('password_confirmation', this)" 
                                     style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
-                                    <i data-feather="eye"></i>
+                                    <i class="feather icon-eye"></i>
                                 </span>
                             </div>
 
@@ -64,10 +64,10 @@
         const input = document.getElementById(fieldId);
         if (input.type === "password") {
             input.type = "text";
-            iconElement.innerHTML = '<i data-feather="eye-off"></i>';
+            iconElement.innerHTML = '<i class="feather icon-eye-off"></i>';
         } else {
             input.type = "password";
-            iconElement.innerHTML = '<i data-feather="eye"></i>';
+            iconElement.innerHTML = '<i class="feather icon-eye"></i>';
         }
         feather.replace(); // Refresh feather icons
     }

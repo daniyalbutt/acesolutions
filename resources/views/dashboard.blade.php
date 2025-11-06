@@ -18,5 +18,13 @@
             </div>
         </div>
         @endif
+        <div class="col-md-6 col-xl-3 d-none">
+            <div class="card bg-grd-warning order-card">
+                <div class="card-body">
+                    <h6 class="text-white">Files</h6>
+                    <h2 class="text-end text-white mb-0"><i class="feather icon-file float-start"></i><span>4</span></h2>
+                </div>
+            </div>
+        </div>
     </div>
 </x-app-layout>

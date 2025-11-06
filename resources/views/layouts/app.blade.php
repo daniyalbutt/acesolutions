@@ -104,22 +104,6 @@
                                 <div class="dropdown-body text-wrap header-notification-scroll position-relative" style="max-height: calc(100vh - 235px)">
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item">
-                                            <p class="text-span">Today</p>
-                                            <div class="d-flex">
-                                                <div class="flex-shrink-0"><img src="{{ asset('img/avatar-2.jpg') }}" alt="user-image" class="user-avtar avtar avtar-s"></div>
-                                                <div class="flex-grow-1 ms-3">
-                                                    <div class="d-flex">
-                                                        <div class="flex-grow-1 me-3 position-relative">
-                                                            <h5 class="mb-0 text-truncate">Keefe Bond <span class="text-body">added new tags to </span>💪 Design system</h5>
-                                                        </div>
-                                                        <div class="flex-shrink-0"><span class="text-sm text-muted">2 min ago</span></div>
-                                                    </div>
-                                                    <p class="position-relative text-muted mt-1 mb-2"><br><span class="text-truncate">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</span></p>
-                                                    <span class="badge bg-light-primary border border-primary me-1 mt-1">web design</span> <span class="badge bg-light-warning border border-warning me-1 mt-1">Dashobard</span> <span class="badge bg-light-success border border-success me-1 mt-1">Design System</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0">
                                                     <div class="avtar avtar-s bg-light-primary"><i class="ph ph-chats-teardrop f-18"></i></div>
@@ -171,7 +155,9 @@
                                         </li>
                                         <li class="list-group-item">
                                             <div class="d-flex">
-                                                <div class="flex-shrink-0"><img src="{{ asset('img/avatar-2.jpg') }}" alt="user-image" class="user-avtar avtar avtar-s"></div>
+                                                <div class="flex-shrink-0">
+                                                    <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('img/avatar-2.jpg') }}" alt="{{ Auth::user()->name }}" class="user-avtar avtar avtar-s">
+                                                </div>
                                                 <div class="flex-grow-1 ms-3">
                                                     <div class="d-flex">
                                                         <div class="flex-grow-1 me-3 position-relative">
@@ -216,7 +202,7 @@
                         </li>
                         <li class="dropdown pc-h-item header-user-profile">
                             <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">
-                                <img src="{{ asset('img/avatar-2.jpg') }}" alt="user-image" class="user-avtar">
+                                <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('img/avatar-2.jpg') }}" alt="{{ Auth::user()->name }}" class="user-avtar">
                             </a>
                             <div class="dropdown-menu dropdown-user-profile dropdown-menu-end pc-h-dropdown">
                                 <div class="dropdown-header d-flex align-items-center justify-content-between">
@@ -227,7 +213,7 @@
                                         <ul class="list-group list-group-flush w-100">
                                             <li class="list-group-item">
                                                 <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0"><img src="{{ asset('img/avatar-2.jpg') }}" alt="user-image" class="wid-50 rounded-circle"></div>
+                                                    <div class="flex-shrink-0"><img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('img/avatar-2.jpg') }}" alt="{{ Auth::user()->name }}" class="wid-50 rounded-circle"></div>
                                                     <div class="flex-grow-1 mx-3">
                                                         <h5 class="mb-0">{{ Auth::user()->name }}</h5>
                                                         <a class="link-primary" href="">{{ Auth::user()->email }}</a>

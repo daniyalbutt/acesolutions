@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Models\ProjectFile;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProjectCreatedMail;
+use App\Mail\ProjectFileUploadedMail;
 
 class ProjectController extends Controller
 {
@@ -42,11 +45,11 @@ class ProjectController extends Controller
             'company_name'      => 'required|string|max:255',
             'company_address'   => 'required|string|max:255',
             'name'              => 'required|string|max:255',
-            'company_phone'     => 'required|string|max:50',
+            'company_phone'     => 'required|numeric',
             'company_email'     => 'required|email|max:255',
             'description'       => 'nullable|string',
             'additional_notes'  => 'nullable|string',
-            'file'              => 'required|file|mimes:pdf,doc,docx,dwg,dxf|max:10240', // 10MB
+            'file'              => 'required|file|mimes:pdf,doc,docx,dwg,dxf',
         ]);
         $filePath = null;
         $project = new Project();
@@ -64,10 +67,20 @@ class ProjectController extends Controller
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $originalName = $file->getClientOriginalName();
-            $filePath = $file->storeAs('projects/' . $project->id, $originalName, 'public');
-            $project->file = $filePath;
-            $project->save();
+            $projectFile = new ProjectFile();
+            $projectFile->project_id = $project->id;
+            $projectFile->uploaded_by = auth()->id();
+            $projectFile->save();
+            $filePath = $file->storeAs(
+                'projects/' . $project->id . '/file/' . $projectFile->id,
+                $originalName,
+                'public'
+            );
+            $projectFile->file = $filePath;
+            $projectFile->save();
         }
+        $adminEmail = config('mail.admin_email');
+        Mail::to($adminEmail)->send(new ProjectCreatedMail($project));
         return redirect()->route('projects.index')->with('success', 'Project created successfully.');
     }
 
@@ -110,52 +123,99 @@ class ProjectController extends Controller
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
 
-    public function uploadFile(Request $request, $id)
+    public function uploadFile(Request $request)
     {
-        $project = Project::findOrFail($id);
-
         $request->validate([
-            'file' => 'required|file|mimes:pdf,doc,docx,dwg,dxf|max:10240',
+            'project_id' => 'required|exists:projects,id',
+            'file' => 'required|file|mimes:pdf,doc,docx,dwg,dxf',
         ]);
-
+        $project = Project::findOrFail($request->project_id);
         $file = $request->file('file');
         $originalName = $file->getClientOriginalName();
-        $filePath = $file->storeAs('projects/' . $project->id, $originalName, 'public');
-
-        ProjectFile::create([
-            'project_id' => $project->id,
-            'file' => $filePath,
-            'uploaded_by' => auth()->id(),
-        ]);
-
+        $projectFile = new ProjectFile();
+        $projectFile->project_id = $project->id;
+        $projectFile->uploaded_by = auth()->id();
+        $projectFile->file = '';
+        $projectFile->save();
+        $filePath = $file->storeAs(
+            'projects/' . $project->id . '/file/' . $projectFile->id,
+            $originalName,
+            'public'
+        );
+        $projectFile->file = $filePath;
+        $projectFile->save();
+        $adminEmail = config('mail.admin_email');
+        Mail::to($adminEmail)->send(new ProjectFileUploadedMail($project, auth()->user()));
         return redirect()->back()->with('success', 'File uploaded successfully.');
     }
 
     public function projectFiles($id)
     {
         $project = Project::findOrFail($id);
+        $user = auth()->user();
+        $userId = $user->id;
+        $isAdmin = $user->hasRole('admin');
         $files = ProjectFile::where('project_id', $project->id)->get();
-        $userId = auth()->id();
-        $isAdmin = auth()->user()->hasRole('admin');
         $allFiles = collect();
         if (!empty($project->file)) {
             $allFiles->push((object)[
-                'id' => null, 
-                'file' => $project->file, 
+                'id' => null,
+                'file' => $project->file,
                 'uploaded_by' => $project->user_id,
-                'source' => 'project_main_file' 
+                'source' => 'project_main_file'
             ]);
         }
+
         $allFiles = $allFiles->merge($files);
         if ($isAdmin) {
-            $userFiles = $allFiles->where('uploaded_by', '!=', $userId)->values();
-            $adminFiles = $allFiles->where('uploaded_by', $userId)->values();
+            // Admin sees all files
+            $userFiles = $allFiles->filter(fn($f) => !empty($f->file));
+            $adminFiles = $allFiles->filter(fn($f) => !empty($f->admin_file));
         } else {
-            $userFiles = $allFiles->where('uploaded_by', $userId)->values();
-            $adminFiles = $allFiles->where('uploaded_by', '!=', $userId)->values();
+            $userFiles = $allFiles->filter(fn($f) => $f->uploaded_by == $userId && !empty($f->file));
+            $adminFiles = $allFiles->filter(fn($f) => !empty($f->admin_file));
         }
         return view('project.files-modal', compact('adminFiles', 'userFiles', 'project'));
     }
+
+    public function show($id)
+    {
+        $project = Project::findOrFail($id);
+        $user = auth()->user();
+        if (!$user->hasRole('admin') || !$user->can('edit project')) {
+            abort(403, "Unauthorized access");
+        }
+        return view('project.show', compact('project'));
+    }
+
+    public function adminUploadFile(Request $request, $id){
+        $request->validate([
+            'file' => 'required|file|mimes:pdf,doc,docx,dwg,dxf',
+        ]);
+        $user = auth()->user();
+        $files = ProjectFile::find($id);
+        $file = $request->file('file');
+        $originalName = $file->getClientOriginalName();
+        $filePath = $request->file('file')->storeAs(
+            'projects/' . $files->project_id . '/file/' . $files->id,
+            $originalName,
+            'public'
+        );
+        $files->admin_file = $filePath;
+        $files->save();
+        $project = Project::findOrFail($files->project_id);
+        Mail::to($project->user->email)->send(new ProjectFileUploadedMail($project, auth()->user()));
+        return redirect()->back()->with('success', 'File uploaded successfully.');
+    }
+
+    public function updateStatus(Request $request, Project $project)
+    {
+        $project->status = $request->status;
+        $project->save();
+        return redirect()->back()->with('success', 'Project status updated successfully!');
+    }
+
+
 
 
 

@@ -78,3 +78,33 @@ ul.role-wrapper ul {
 ul.role-wrapper > li {
     margin-bottom: 20px;
 }
+
+[data-pc-direction=ltr] .border-left-0{
+    border-left: 0px !important;
+}
+
+.pc-header .header-user-profile .pc-head-link .user-avtar {
+    height: 40px;
+    object-fit: cover;
+}
+
+.admin-status {
+    width: 427px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.admin-status select {
+    padding: 0px 15px;
+    border-radius: 0 !important;
+}
+
+.admin-status .input-group {
+    width: 303px;
+}
+
+.admin-status .input-group button {
+    padding: 5px 15px;
+}

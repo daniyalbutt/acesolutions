@@ -22,6 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'profile_image',
     ];
 
     /**
@@ -49,5 +50,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getRole(){
         return $this->getRoleNames()->first();
+    }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 }

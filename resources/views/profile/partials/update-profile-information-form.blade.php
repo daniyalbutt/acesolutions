@@ -4,7 +4,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
         @if (session('status') === 'profile-updated')
@@ -13,16 +13,30 @@
         </div>
         @endif
         <div class="row">
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Profile Image</label>
+                <input type="file" name="profile_image" class="form-control">
+                @if (Auth::user()->profile_image)
+                <div class="mt-2">
+                    <img src="{{ asset('storage/' . Auth::user()->profile_image) }}"
+                        alt="Profile Image"
+                        class="rounded-full w-24 h-24 object-cover" style="width: 50px;height: 50px;object-fit: cover;">
+                </div>
+                @endif
+            </div>
+            <div class="col-md-4 mb-3">
                 <label class="form-label">Name *</label>
                 <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required autofocus autocomplete="name">
                 @error('name')
                     <small class="text-danger">{{ $message }}</small>
                 @enderror
             </div>
-            <div class="col-md-6 mb-3">
+            <div class="col-md-4 mb-3">
                 <label class="form-label">Email *</label>
                 <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required autocomplete="username">
+                @error('email')
+                    <small class="text-danger">{{ $message }}</small>
+                @enderror
             </div>
         </div>
 

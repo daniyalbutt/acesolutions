@@ -89,6 +89,11 @@
                                     @endif
                                     <td>
                                         <div class="d-flex">
+                                            @if(Auth::user()->hasRole('admin') && Auth::user()->can('edit project'))
+                                            <a href="{{ route('projects.show', $value->id) }}" class="btn btn-warning shadow btn-sm sharp me-1">
+                                                <i class="feather icon-eye"></i>
+                                            </a>
+                                            @endif
                                             @can('edit project')
                                             <a href="{{ route('projects.edit', $value->id) }}" class="btn btn-primary shadow btn-sm sharp me-1">
                                                 <i class="feather icon-edit"></i>
@@ -120,7 +125,8 @@
     <!-- Main page (outside AJAX) -->
     <div class="modal fade" id="uploadFileModal" tabindex="-1" aria-labelledby="uploadFileModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" action="" enctype="multipart/form-data" id="uploadFileForm">
+            <form method="POST" action="{{ route('projects.uploadFile') }}" enctype="multipart/form-data" id="uploadFileForm">
+                <input type="hidden" name="project_id" id="project_id">
                 @csrf
                 <div class="modal-content">
                     <div class="modal-header">
@@ -155,34 +161,32 @@
                 <div class="modal-body">
 
                 </div>
-                <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> <button type="button" class="btn btn-primary">Save changes</button></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
     @push('scripts')
     <script>
-    $(document).on("click", ".viewFilesBtn", function() {
-        let projectId = $(this).data("id");
-        $("#exampleModalLong").modal("show");
+        $(document).on("click", ".viewFilesBtn", function() {
+            let projectId = $(this).data("id");
+            $('#project_id').val(projectId);
+            $("#exampleModalLong").modal("show");
 
-        $("#exampleModalLong .modal-body").html("<p>Loading...</p>");
+            $("#exampleModalLong .modal-body").html("<p>Loading...</p>");
 
-        $.ajax({
-            url: "{{ url('projects/files') }}/" + projectId,
-            method: "GET",
-            success: function(res) {
-                $("#exampleModalLong .modal-body").html(res);
-            },
-            error: function() {
-                $("#exampleModalLong .modal-body").html("<p class='text-danger'>Failed to load files.</p>");
-            }
+            $.ajax({
+                url: "{{ url('projects/files') }}/" + projectId,
+                method: "GET",
+                success: function(res) {
+                    $("#exampleModalLong .modal-body").html(res);
+                },
+                error: function() {
+                    $("#exampleModalLong .modal-body").html("<p class='text-danger'>Failed to load files.</p>");
+                }
+            });
         });
-    });
-    $(document).on("click", ".add-file-btn", function() {
-        let projectId = $(this).data("project-id");
-        $("#uploadFileForm").attr("action", `/projects/${projectId}/upload-file`);
-        $("#uploadFileModal").modal("show");
-    });
     </script>
     @endpush
 </x-app-layout>
