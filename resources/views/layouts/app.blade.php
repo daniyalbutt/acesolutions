@@ -88,10 +88,6 @@
                 <!-- [Mobile Media Block end] -->
                 <div class="ms-auto">
                     <ul class="list-unstyled">
-                        <li class="dropdown pc-h-item">
-                            <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false"><i class="ph ph-sun-dim"></i></a>
-                            <div class="dropdown-menu dropdown-menu-end pc-h-dropdown"><a href="#!" class="dropdown-item" onclick="layout_change('dark')"><i class="ph ph-moon"></i> <span>Dark</span> </a><a href="#!" class="dropdown-item" onclick="layout_change('light')"><i class="ph ph-sun-dim"></i> <span>Light</span> </a><a href="#!" class="dropdown-item" onclick="layout_change_default()"><i class="ph ph-cpu"></i> <span>Default</span></a></div>
-                        </li>
                         @php
                         $notifications = auth()->user()->unreadNotifications;
                         @endphp
