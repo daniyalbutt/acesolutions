@@ -36,7 +36,9 @@
                                     <h6 class="f-w-400 mb-0">Forgot Password?</h6>
                                 </a>
                             </div>
-                            <div class="d-grid mt-4"><button type="submit" class="btn btn-primary">Login</button></div>
+                            <div class="mt-4 text-center">
+                                <button type="submit" class="btn btn-primary">Log In to Portal <span><i class="feather icon-arrow-right"></i></span></button>
+                            </div>
                         </div>
                     </div>
                 </form>

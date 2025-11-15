@@ -71,7 +71,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $data = [];
         if ($user->hasRole('admin')) {
-            $data['total_projects'] = DB::table('projects')->count();
+            $data['total_projects'] = DB::table('projects')->where('show_project', 1)->count();
             $data['total_users'] = DB::table('model_has_roles')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->join('users', 'model_has_roles.model_id', '=', 'users.id')
@@ -80,6 +80,7 @@ class ProfileController extends Controller
         } else {
             $data['total_projects'] = DB::table('projects')
                 ->where('user_id', $user->id)
+                ->where('show_project', 1)
                 ->count();
         }
         return view('dashboard', $data);
@@ -88,4 +89,12 @@ class ProfileController extends Controller
     public function profilePassword(){
         return view('profile.profile-password');
     }
+
+    public function markAllRead()
+    {
+        $user = auth()->user();
+        $user->unreadNotifications->markAsRead();
+        return redirect()->back()->with('success', 'All notifications marked as read.');
+    }
+
 }

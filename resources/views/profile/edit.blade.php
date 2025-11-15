@@ -3,17 +3,18 @@
         <div class="page-block card mb-0">
             <div class="card-body">
                 <div class="row align-items-center">
-                    <div class="col-md-12">
-                        <div class="page-header-title border-bottom pb-2 mb-2">
+                    <div class="col-md-6">
+                        <div class="page-header-title">
                             <h4 class="mb-0">Edit Profile</h4>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0)">Profile</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Edit Profile</li>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <ul class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
-                            <li class="breadcrumb-item"><a href="javascript: void(0)">Profile</a></li>
-                            <li class="breadcrumb-item" aria-current="page">Edit Profile</li>
-                        </ul>
+                        
                     </div>
                 </div>
             </div>

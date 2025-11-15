@@ -15,7 +15,7 @@
 }
 
 .pc-sidebar .m-header {
-    background-color: #63abff;
+    background-color: #0a1f3c;
     height: auto;
 }
 
@@ -43,11 +43,6 @@
     min-width: 400px;
 }
 
-.page-header-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
 
 .page-header-title a {
     padding-top: 4px;
@@ -89,11 +84,12 @@ ul.role-wrapper > li {
 }
 
 .admin-status {
-    width: 427px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: end;
+    align-items: flex-start;
     gap: 15px;
+    text-align: end;
+    margin-left: auto;
 }
 
 .admin-status select {
@@ -111,4 +107,73 @@ ul.role-wrapper > li {
 
 .pc-header ul {
     width: 100%;
+}
+
+.bg-grd-primary {
+    background: linear-gradient(45deg, #0a1f3c, #0a1f3c);
+}
+
+
+.btn-primary span {
+    width: 35px;
+    height: 35px;
+    line-height: 38px !important;
+    background-color: #fff;
+    color: #0277ff;
+    display: inline-block;
+    text-align: center;
+    border-radius: 50%;
+    margin-left: 7px;
+}
+
+.btn-primary span i{
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #0277ff !important;
+    border-radius: 60px;
+    padding: 10px 10px 10px 20px;
+    width: auto;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    background-color: #000 !important;
+    color: #fff;
+    border-color: #000;
+}
+
+.register-auth-wrapper .auth-form .card {
+    min-width: 600px !important;
+    max-width: 600px !important;
+}
+
+:root {
+    --pc-header-background: linear-gradient(to right, #0a1f3c, #0a1f3c) !important;
+}
+
+.pc-sidebar .pc-navbar>.pc-item.active>.pc-link:after {
+    border-left: 4px solid #0a1f3c;
+}
+
+.btn-secondary {
+    border-radius: 60px;
+    padding: 10px 20px 10px 20px;
+    width: auto;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.page-header .breadcrumb {
+    border-top: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color)!important;
+    padding-top: 6px;
+    margin-top: 6px;
+}
+
+.table .btn-primary {
+    padding: 4px 8px;
+    border-radius: 2px;
+    font-size: 14px;
 }

@@ -3,20 +3,22 @@
 		<div class="page-block card mb-0">
 			<div class="card-body">
 				<div class="row align-items-center">
-					<div class="col-md-12">
-						<div class="page-header-title border-bottom pb-2 mb-2">
+					<div class="col-md-6">
+						<div class="page-header-title">
 							<h4 class="mb-0">Projects</h4>
-							@can('create project')
-                            <a href="{{ route('projects.create') }}" class="btn btn-primary">Create Project</a>
-                            @endcan
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0)">Projects</a></li>
+                                <li class="breadcrumb-item" aria-current="page">Project List</li>
+                            </ul>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
-							<li class="breadcrumb-item"><a href="javascript: void(0)">Projects</a></li>
-							<li class="breadcrumb-item" aria-current="page">Project List</li>
-						</ul>
+					<div class="col-md-6">
+                        <div class="text-end">
+                        @can('create project')
+                        <a href="{{ route('projects.create') }}" class="btn btn-primary">Create Project <span><i class="feather icon-arrow-right"></i></span></a>
+                        @endcan
+                        </div>
 					</div>
 				</div>
 			</div>
@@ -76,7 +78,10 @@
                                     <td>{{ $value->name }}</td>
                                     <td>{{ $value->company_email }}</td>
                                     <td>{{ $value->company_phone }}</td>
-                                    <td><span class="badge {{ $value->status_class }}">{{ $value->status_label }}</span></td>
+                                    <td>
+                                        <span title="{{ $value->remarks }}" class="badge {{ $value->status_class }}">{{ $value->status_label }}</span><br>
+                                        {{ $value->remarks }}
+                                    </td>
                                     <td>
                                         <a href="javascript:;" 
                                             data-id="{{ $value->id }}" 
@@ -155,7 +160,7 @@
                 <div class="modal-header justify-content-between">
                     <h5 class="modal-title" id="exampleModalLongTitle">Project Files</h5>
                     @if(!auth()->user()->hasRole('admin'))
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadFileModal">Add New File</button>
+                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#uploadFileModal">Add New File <span><i class="feather icon-arrow-right"></i></span></button>
                     @endif
                 </div>
                 <div class="modal-body">

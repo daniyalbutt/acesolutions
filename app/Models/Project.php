@@ -17,18 +17,22 @@ class Project extends Model
         'file',
         'status',
         'user_id',
+        'show_project',
+        'remarks'
     ];
 
     public const STATUS = [
         0 => 'Pending',
         1 => 'In Progress',
-        2 => 'Approved',
+        2 => 'Completed',
+        3 => 'Rejected',
     ];
 
     public const STATUS_CLASS = [
         0 => 'bg-info',
         1 => 'bg-warning',
         2 => 'bg-success',
+        3 => 'bg-danger',
     ];
 
     public function getStatusLabelAttribute()

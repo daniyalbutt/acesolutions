@@ -24,6 +24,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/projects/files/{id}', [ProjectController::class, 'deleteFile'])->name('projects.files.delete');
     Route::post('/project/{id}/admin-upload-file', [ProjectController::class, 'adminUploadFile'])->name('admin.project-files');
     Route::put('/project/{project}/status', [ProjectController::class, 'updateStatus'])->name('projects.updateStatus');
+    Route::post('/notifications/mark-all-read', [ProfileController::class, 'markAllRead'])->name('notifications.markAllRead');
+
 });
 
 require __DIR__.'/auth.php';

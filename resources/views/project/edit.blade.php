@@ -5,11 +5,11 @@
 				<div class="row align-items-center">
 					<div class="col-md-6">
 						<div class="page-header-title">
-							<h4 class="mb-0">Add Project</h4>
+							<h4 class="mb-0">Edit Project</h4>
 							<ul class="breadcrumb">
 								<li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
 								<li class="breadcrumb-item"><a href="javascript:void(0)">Projects</a></li>
-								<li class="breadcrumb-item" aria-current="page">Add Project</li>
+								<li class="breadcrumb-item" aria-current="page">Edit Project</li>
 							</ul>
 						</div>
 					</div>
@@ -29,15 +29,17 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<h5>Add Project Form</h5>
+					<h5>Edit Project Form</h5>
 				</div>
 
 				<div class="card-body">
 					<form class="form" 
 						method="POST" 
-						action="{{ route('projects.store') }}" 
+						action="{{ route('projects.update', $project->id) }}" 
 						enctype="multipart/form-data">
 						@csrf
+						@method('PUT')
+
 						@if($errors->any())
 							{!! implode('', $errors->all('<div class="alert alert-danger">:message</div>')) !!}
 						@endif
@@ -107,7 +109,7 @@
 						</div>
 
 						<button type="submit" class="btn btn-primary btn-submit">
-							Save Project 
+							Update Project 
 							<span><i class="feather icon-arrow-right"></i></span>
 						</button>
 					</form>

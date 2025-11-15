@@ -19,7 +19,7 @@
                         <div class="d-grid mt-4">
                             <form method="POST" action="{{ route('verification.send') }}">
                                 @csrf
-                                <button type="submit" class="btn btn-primary w-100">{{ __('Resend Verification Email') }}</button>
+                                <button type="submit" class="btn btn-primary w-100">{{ __('Resend Verification Email') }} <span><i class="feather icon-arrow-right"></i></span></button>
                             </form>
                         </div>
                         <form method="POST" action="{{ route('logout') }}">

@@ -3,34 +3,38 @@
 		<div class="page-block card mb-0">
 			<div class="card-body">
 				<div class="row align-items-center">
-					<div class="col-md-12">
-						<div class="page-header-title border-bottom pb-2 mb-2">
+					<div class="col-md-6">
+						<div class="page-header-title">
 							<h4 class="mb-0">Projects - {{ $project->name }}</h4>
-							@can('project')
-                            <div class="admin-status">
-                                <a href="{{ route('projects.index') }}" class="btn btn-primary">Project List</a>
-                                <form action="{{ route('projects.updateStatus', $project->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="input-group">
-                                        <select name="status" id="status" class="form-control">
-                                            <option value="0" {{ $project->status == 0 ? 'selected' : '' }}>Pending</option>
-                                            <option value="1" {{ $project->status == 1 ? 'selected' : '' }}>In Progress</option>
-                                            <option value="2" {{ $project->status == 2 ? 'selected' : '' }}>Approved</option>
-                                        </select>
-                                        <button class="btn btn-info" type="submit">Update</button>
-                                    </div>
-                                </form>
-                            </div>
-							@endcan
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0)">Projects</a></li>
+                                <li class="breadcrumb-item" aria-current="page">{{ $project->name }}</li>
+                            </ul>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
-							<li class="breadcrumb-item"><a href="javascript: void(0)">Projects</a></li>
-							<li class="breadcrumb-item" aria-current="page">{{ $project->name }}</li>
-						</ul>
+					<div class="col-md-6">
+                        @can('project')
+                        <div class="admin-status">
+                            <a href="{{ route('projects.index') }}" class="btn btn-primary">Project List <span><i class="feather icon-arrow-right"></i></span></a>
+                            <form action="{{ route('projects.updateStatus', $project->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <div class="input-group mb-2">
+                                    <select name="status" id="status" class="form-control">
+                                        <option value="0" {{ $project->status == 0 ? 'selected' : '' }}>Pending</option>
+                                        <option value="1" {{ $project->status == 1 ? 'selected' : '' }}>In Progress</option>
+                                        <option value="2" {{ $project->status == 2 ? 'selected' : '' }}>Completed</option>
+                                        <option value="3" {{ $project->status == 3 ? 'selected' : '' }}>Rejected</option>
+                                    </select>
+                                    <button class="btn btn-info" type="submit">Update</button>
+                                </div>
+                                <div id="remarks-wrapper" style="display: none;">
+                                    <textarea name="remarks" class="form-control" placeholder="Enter remarks...">{{ $project->remarks }}</textarea>
+                                </div>
+                            </form>
+                        </div>
+                        @endcan
 					</div>
 				</div>
 			</div>
@@ -180,6 +184,22 @@
         </div>
     </div>
     @push('scripts')
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const statusSelect = document.getElementById("status");
+            const remarksWrapper = document.getElementById("remarks-wrapper");
 
+            function toggleRemarks() {
+                if (statusSelect.value == "3") {
+                    remarksWrapper.style.display = "block";
+                } else {
+                    remarksWrapper.style.display = "none";
+                }
+            }
+
+            toggleRemarks(); // on page load
+            statusSelect.addEventListener("change", toggleRemarks);
+        });
+    </script>
     @endpush
 </x-app-layout>

@@ -105,7 +105,7 @@
                                     <ul class="list-group list-group-flush">
                                         @forelse ($notifications as $notification)
                                         <li class="list-group-item">
-                                            <a href="{{ route('projects.show', ['project' => $notification->data['project_id'], 'notification_id' => $notification->id]) }}">
+                                            <a href="{{ auth()->user()->hasRole('user') ? '#' : route('projects.show', ['project' => $notification->data['project_id'], 'notification_id' => $notification->id]) }}">
                                                 <div class="d-flex">
                                                     <div class="flex-shrink-0">
                                                         <div class="avtar avtar-s bg-light-primary">
@@ -129,7 +129,20 @@
                                         @endforelse
                                     </ul>
                                 </div>
+                                <div class="dropdown-footer">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <div class="d-grid">
+                                                <form action="{{ route('notifications.markAllRead') }}" method="POST">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-primary w-100">Mark all as read</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
                         </li>
                         <li class="dropdown pc-h-item header-user-profile">
                             <a class="pc-head-link dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" data-bs-auto-close="outside" aria-expanded="false">

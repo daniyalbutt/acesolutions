@@ -4,20 +4,22 @@
 		<div class="page-block card mb-0">
 			<div class="card-body">
 				<div class="row align-items-center">
-					<div class="col-md-12">
-						<div class="page-header-title border-bottom pb-2 mb-2">
+					<div class="col-md-6">
+						<div class="page-header-title">
 							<h4 class="mb-0">Add User</h4>
-							@can('user')
-							<a href="{{ route('users.index') }}" class="btn btn-primary">User List</a>
-							@endcan
+							<ul class="breadcrumb">
+								<li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
+								<li class="breadcrumb-item"><a href="javascript: void(0)">Users</a></li>
+								<li class="breadcrumb-item" aria-current="page">Add User</li>
+							</ul>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
-							<li class="breadcrumb-item"><a href="javascript: void(0)">Users</a></li>
-							<li class="breadcrumb-item" aria-current="page">Add User</li>
-						</ul>
+					<div class="col-md-6">
+						<div class="text-end">
+							@can('user')
+							<a href="{{ route('users.index') }}" class="btn btn-primary">User List <span><i class="feather icon-arrow-right"></i></span></a>
+							@endcan
+						</div>
 					</div>
 				</div>
 			</div>
@@ -78,7 +80,7 @@
 								</div>
 								<!-- /.box-body -->
 								<div class="box-footer">
-									<button type="submit" class="btn btn-primary">Save</button>
+									<button type="submit" class="btn btn-primary">Save User <span><i class="feather icon-arrow-right"></i></span></button>
 								</div>
 							</form>
 						</div>

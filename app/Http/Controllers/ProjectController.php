@@ -12,6 +12,7 @@ use App\Models\ProjectFile;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProjectCreatedMail;
 use App\Mail\ProjectFileUploadedMail;
+use App\Mail\ProjectStatusMail;
 
 class ProjectController extends Controller
 {
@@ -25,7 +26,7 @@ class ProjectController extends Controller
 
     public function index(Request $request)
     {
-        $data = Project::orderBy('id', 'desc');
+        $data = Project::where('show_project', 1)->orderBy('id', 'desc');
         $user = auth()->user();
         if ($user->hasRole('user')) {
             $data = $data->where('user_id', $user->id);
@@ -39,9 +40,21 @@ class ProjectController extends Controller
         return view('project.index', compact('data'));
     }
 
-    public function create(){
-        return view('project.create');
+    public function create()
+    {
+        $project = auth()->user()
+            ->projects()
+            ->where('show_project', 0)
+            ->first();
+        $action = 0;
+        if($project == null){
+            $project = auth()->user()
+                ->projects()
+                ->first();
+        }
+        return view('project.create', compact('project', 'action'));
     }
+
 
     public function store(Request $request)
     {
@@ -102,7 +115,8 @@ class ProjectController extends Controller
         if ($user->hasRole('admin') && !$user->can('edit project')) {
             abort(403, "Unauthorized access");
         }
-        return view('project.create', compact('project'));
+        $action = 1;
+        return view('project.edit', compact('project', 'action'));
     }
 
     public function update(Request $request, $id)
@@ -127,6 +141,7 @@ class ProjectController extends Controller
         $project->company_email     = $request->company_email;
         $project->description       = $request->description;
         $project->additional_notes  = $request->additional_notes;
+        $project->show_project      = 1;
         $project->save();
         return redirect()->route('projects.index')->with('success', 'Project updated successfully.');
     }
@@ -227,10 +242,12 @@ class ProjectController extends Controller
     public function updateStatus(Request $request, Project $project)
     {
         $project->status = $request->status;
+        $project->remarks = $request->remarks;
         $project->save();
         $projectOwner = $project->user;
         if ($projectOwner) {
             $projectOwner->notify(new ProjectStatusUpdatedNotification($project));
+            Mail::to($projectOwner->email)->send(new ProjectStatusMail($project));
         }
         return redirect()->back()->with('success', 'Project status updated successfully!');
     }

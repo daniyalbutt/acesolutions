@@ -3,20 +3,22 @@
 		<div class="page-block card mb-0">
 			<div class="card-body">
 				<div class="row align-items-center">
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<div class="page-header-title border-bottom pb-2 mb-2">
 							<h4 class="mb-0">Users</h4>
-							@can('create user')
-                            <a href="{{ route('users.create') }}" class="btn btn-primary">Create User</a>
-                            @endcan
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
+                                <li class="breadcrumb-item"><a href="javascript: void(0)">User</a></li>
+                                <li class="breadcrumb-item" aria-current="page">User List</li>
+                            </ul>
 						</div>
 					</div>
-					<div class="col-md-12">
-						<ul class="breadcrumb">
-							<li class="breadcrumb-item"><a href="{{ route('dashboard') }}"><i class="ph ph-house"></i></a></li>
-							<li class="breadcrumb-item"><a href="javascript: void(0)">User</a></li>
-							<li class="breadcrumb-item" aria-current="page">User List</li>
-						</ul>
+					<div class="col-md-6">
+                        <div class="text-end">
+                            @can('create user')
+                            <a href="{{ route('users.create') }}" class="btn btn-primary">Create User <span><i class="feather icon-arrow-right"></i></span></a>
+                            @endcan
+                        </div>
 					</div>
 				</div>
 			</div>

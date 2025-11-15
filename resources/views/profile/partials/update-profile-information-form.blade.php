@@ -41,7 +41,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <button class="btn btn-primary" type="submit">Update Profile</button>
+            <button class="btn btn-primary" type="submit">Update Profile <span><i class="feather icon-arrow-right"></i></span></button>
         </div>
     </form>
 </section>
