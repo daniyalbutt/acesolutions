@@ -30,17 +30,19 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'company_name' => ['required'],
             'company_address' => ['required'],
             'company_phone' => ['required'],
-            'company_email' => ['required', 'email'],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'name' => $request->first_name . ' ' . $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -49,10 +51,9 @@ class RegisteredUserController extends Controller
         $user->projects()->create([
             'company_name' => $request->company_name,
             'company_address' => $request->company_address,
-            'name' => $request->name,
+            'name' => $request->first_name . ' ' . $request->last_name,
             'company_phone' => $request->company_phone,
-            'company_email' => $request->company_email,
-            'description' => $request->description,
+            'company_email' => $request->email,
             'show_project' => 0,
         ]);
         

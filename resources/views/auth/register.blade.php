@@ -16,6 +16,24 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="First Name *" name="first_name" value="{{ old('first_name') }}" required>
+                                        @error('first_name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" placeholder="Last Name *" name="last_name" value="{{ old('last_name') }}" required>
+                                        @error('last_name')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
                                         <input type="text" class="form-control" placeholder="Company Name *" name="company_name" value="{{ old('company_name') }}" required>
                                         @error('company_name')
                                             <small class="text-danger">{{ $message }}</small>
@@ -34,14 +52,6 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <input type="text" class="form-control" placeholder="Name *" name="name" value="{{ old('name') }}" required>
-                                        @error('name')
-                                            <small class="text-danger">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
                                         <input type="text" name="company_phone" class="form-control"
                                             value="{{ old('company_phone') }}"
                                             placeholder="Company Phone *"
@@ -53,18 +63,14 @@
                                         @enderror
                                     </div>
                                 </div>
-                            </div>
-                            <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Company Email *" name="company_email" value="{{ old('company_email') }}" required>
-                                @error('company_email')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
-                            </div>
-                            <div class="mb-3">
-                                <input name="email" type="email" class="form-control" placeholder="Email Address" value="{{ old('email') }}" required>
-                                @error('email')
-                                    <small class="text-danger">{{ $message }}</small>
-                                @enderror
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <input name="email" type="email" class="form-control" placeholder="Company Email" value="{{ old('email') }}" required>
+                                        @error('email')
+                                            <small class="text-danger">{{ $message }}</small>
+                                        @enderror
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="row">
@@ -91,14 +97,6 @@
                                         </span>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <input type="text" class="form-control" placeholder="Description" name="description" value="{{ old('description') }}">
-                            </div>
-
-                            <div class="d-flex mt-1 justify-content-between">
-                                <div class="form-check"><input class="form-check-input input-primary" type="checkbox" id="customCheckc1" checked=""> <label class="form-check-label text-muted" for="customCheckc1">I agree to all the Terms & Condition</label></div>
                             </div>
                             <div class="text-center mt-4"><button type="submit" class="btn btn-primary">Create an Account <span><i class="feather icon-arrow-right"></i></span></button></div>
                         </div>

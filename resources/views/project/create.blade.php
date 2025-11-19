@@ -89,7 +89,7 @@
 
 							<div class="col-md-4 mb-3">
 								<label class="form-label">Description</label>
-								<input type="text" name="description" class="form-control" value="{{ $description }}" readonly>
+								<input type="text" name="description" class="form-control" value="{{ $description }}">
 							</div>
 
 							<div class="col-md-4 mb-3">

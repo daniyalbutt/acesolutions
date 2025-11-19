@@ -29,9 +29,7 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $user->fill($request->validated());
-        if ($user->isDirty('email')) {
-            $user->email_verified_at = null;
-        }
+        $user->name = $request->first_name . ' ' . $request->last_name;
         if ($request->hasFile('profile_image')) {
             $file = $request->file('profile_image');
             $filename = time() . '-' . $file->getClientOriginalName();
